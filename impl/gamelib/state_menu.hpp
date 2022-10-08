@@ -48,6 +48,8 @@ private:
     void createTweens();
     void createInstructionTweenColor1();
     void createInstructionTweenColor2();
+    void createInstructionTweenColor3();
+    void createInstructionTweenColor4();
     void createTweenTitleAlpha();
     void createTweenOverlayAlpha();
     void createTweenCreditsPosition();

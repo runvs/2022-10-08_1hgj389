@@ -114,7 +114,7 @@ void StateMenu::createTweens()
 void StateMenu::createInstructionTweenColor1()
 {
     auto tc = jt::TweenColor::create(
-        m_textStart, 0.5f, GP::PaletteFontFront(), GP::PalleteFrontHighlight());
+        m_textStart, 0.3f, GP::PaletteFontFront(), GP::PalleteFrontHighlight1());
     tc->addCompleteCallback([this]() { createInstructionTweenColor2(); });
     tc->setAgePercentConversion([](float age) {
         return jt::Lerp::cubic(0.0f, 1.0f, jt::MathHelper::clamp(age, 0.0f, 1.0f));
@@ -125,7 +125,31 @@ void StateMenu::createInstructionTweenColor1()
 void StateMenu::createInstructionTweenColor2()
 {
     auto tc = jt::TweenColor::create(
-        m_textStart, 0.45f, GP::PalleteFrontHighlight(), GP::PaletteFontFront());
+        m_textStart, 0.35f, GP::PalleteFrontHighlight1(), GP::PaletteFontFront());
+    tc->setAgePercentConversion([](float age) {
+        return jt::Lerp::cubic(0.0f, 1.0f, jt::MathHelper::clamp(age, 0.0f, 1.0f));
+    });
+    tc->setStartDelay(0.2f);
+    tc->addCompleteCallback([this]() { createInstructionTweenColor3(); });
+    add(tc);
+}
+
+void StateMenu::createInstructionTweenColor3()
+{
+    auto tc = jt::TweenColor::create(
+        m_textStart, 0.35f, GP::PaletteFontFront(), GP::PalleteFrontHighlight2());
+    tc->setAgePercentConversion([](float age) {
+        return jt::Lerp::cubic(0.0f, 1.0f, jt::MathHelper::clamp(age, 0.0f, 1.0f));
+    });
+    tc->setStartDelay(0.2f);
+    tc->addCompleteCallback([this]() { createInstructionTweenColor4(); });
+    add(tc);
+}
+
+void StateMenu::createInstructionTweenColor4()
+{
+    auto tc = jt::TweenColor::create(
+        m_textStart, 0.35f, GP::PalleteFrontHighlight2(), GP::PaletteFontFront());
     tc->setAgePercentConversion([](float age) {
         return jt::Lerp::cubic(0.0f, 1.0f, jt::MathHelper::clamp(age, 0.0f, 1.0f));
     });

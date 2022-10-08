@@ -24,8 +24,9 @@ public:
     static jt::Vector2f GetScreenSize() { return GetWindowSize() * (1.0f / GetZoom()); }
 
     static jt::Color PaletteBackground() { return GP::getPalette().getColor(0); }
-    static jt::Color PaletteFontFront() { return GP::getPalette().getColor(3); }
-    static jt::Color PalleteFrontHighlight() { return GP::getPalette().getColor(2); }
+    static jt::Color PaletteFontFront() { return GP::getPalette().getColor(2); }
+    static jt::Color PalleteFrontHighlight1() { return GP::getPalette().getColor(3); }
+    static jt::Color PalleteFrontHighlight2() { return GP::getPalette().getColor(4); }
     static jt::Color PaletteFontShadow() { return GP::getPalette().getColor(1); }
     static jt::Color PaletteFontCredits() { return GP::getPalette().getColor(2); }
 
