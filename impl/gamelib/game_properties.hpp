@@ -35,6 +35,7 @@ public:
     static int PhysicVelocityIterations();
     static int PhysicPositionIterations();
     static jt::Vector2f PlayerSize();
+    static float catapultMovementSpeed();
 };
 
 #endif

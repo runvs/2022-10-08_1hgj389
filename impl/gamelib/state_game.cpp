@@ -1,4 +1,5 @@
 ﻿#include "state_game.hpp"
+#include "catapult_controller_player.hpp"
 #include <box2dwrapper/box2d_world_impl.hpp>
 #include <color/color.hpp>
 #include <game_interface.hpp>
@@ -26,7 +27,7 @@ void StateGame::doInternalCreate()
     m_background->setIgnoreCamMovement(true);
     m_background->update(0.0f);
 
-    createPlayer();
+    createCatapults();
 
     m_vignette = std::make_shared<jt::Vignette>(GP::GetScreenSize());
     add(m_vignette);
@@ -37,7 +38,16 @@ void StateGame::doInternalCreate()
     setAutoDraw(false);
 }
 
-void StateGame::createPlayer() { }
+void StateGame::createCatapults()
+{
+    auto inputP = std::make_shared<CatapultControllerPlayer>(getGame()->input());
+    m_catapult1 = std::make_shared<Catapult>(inputP);
+    add(m_catapult1);
+
+    auto inputP2 = std::make_shared<CatapultControllerPlayer>(getGame()->input());
+    m_catapult2 = std::make_shared<Catapult>(inputP);
+    add(m_catapult2);
+}
 
 void StateGame::doInternalUpdate(float const elapsed)
 {

@@ -2,6 +2,7 @@
 #define GAME_STATE_GAME_HPP
 
 #include <box2dwrapper/box2d_world_interface.hpp>
+#include <catapult.hpp>
 #include <game_state.hpp>
 #include <memory>
 #include <vector>
@@ -25,6 +26,9 @@ private:
     std::shared_ptr<Hud> m_hud;
     std::shared_ptr<jt::Box2DWorldInterface> m_world { nullptr };
 
+    std::shared_ptr<Catapult> m_catapult1 { nullptr };
+    std::shared_ptr<Catapult> m_catapult2 { nullptr };
+
     bool m_running { true };
     bool m_hasEnded { false };
 
@@ -36,7 +40,7 @@ private:
     void doInternalDraw() const override;
 
     void endGame();
-    void createPlayer();
+    void createCatapults();
 };
 
 #endif
