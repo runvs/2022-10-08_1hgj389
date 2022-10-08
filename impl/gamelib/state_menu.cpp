@@ -57,8 +57,8 @@ void StateMenu::createMenuText()
 }
 void StateMenu::createTextExplanation()
 {
-    m_textExplanation
-        = jt::dh::createText(renderTarget(), GP::ExplanationText(), 16U, GP::PaletteFontFront());
+    m_textExplanation = jt::dh::createText(
+        renderTarget(), GP::ExplanationText() + "\n" + m_score, 16U, GP::PaletteFontFront());
     auto const half_width = GP::GetScreenSize().x / 2.0f;
     m_textExplanation->setPosition({ half_width, 180 });
     m_textExplanation->setShadow(GP::PaletteFontShadow(), jt::Vector2f { 2, 2 });

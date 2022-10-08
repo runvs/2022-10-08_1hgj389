@@ -18,7 +18,17 @@ void CatapultControllerPlayer::update(float elapsed)
         m_catapult->moveDown();
     }
     if (m_input.keyboard()->justPressed(jt::KeyCode::Space)) {
-        m_catapult->fire(0.5f);
+        m_fireTimer = 0.0f;
+    }
+    if (m_input.keyboard()->pressed(jt::KeyCode::Space)) {
+        m_fireTimer += elapsed;
+        if (m_fireTimer > m_fireTimerMax) {
+            m_fireTimer = m_fireTimerMax;
+        }
+    }
+    if (m_input.keyboard()->justReleased(jt::KeyCode::Space)) {
+
+        m_catapult->fire(m_fireTimer / m_fireTimerMax);
     }
 }
 void CatapultControllerPlayer::registerCatapult(Catapult* catapult) { m_catapult = catapult; }

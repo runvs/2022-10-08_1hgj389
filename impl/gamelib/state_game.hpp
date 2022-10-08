@@ -3,6 +3,7 @@
 
 #include "block.hpp"
 #include "object_group.hpp"
+#include "text.hpp"
 #include <box2dwrapper/box2d_world_interface.hpp>
 #include <catapult.hpp>
 #include <game_state.hpp>
@@ -36,6 +37,9 @@ private:
     int m_gridSizeX = 21;
     int m_gridSizeY = 22;
     jt::Vector2f const m_gridOffset { 125.0f, 20.0f };
+
+    float m_timer { 60.0f };
+    std::shared_ptr<jt::Text> m_timerText { nullptr };
 
     bool m_running { true };
     bool m_hasEnded { false };

@@ -4,6 +4,7 @@
 #include <catapult_controller_ai.hpp>
 #include <catapult_controller_player.hpp>
 #include <color/color.hpp>
+#include <drawable_helpers.hpp>
 #include <game_interface.hpp>
 #include <game_properties.hpp>
 #include <hud/hud.hpp>
@@ -49,7 +50,8 @@ void StateGame::doInternalCreate()
     add(m_vignette);
     m_hud = std::make_shared<Hud>();
     add(m_hud);
-
+    m_timerText = jt::dh::createText(renderTarget(), "timer", 16);
+    m_timerText->setPosition(jt::Vector2f { 155.0f, 10.0f });
     // StateGame will call drawObjects itself.
     setAutoDraw(false);
 }
@@ -69,7 +71,7 @@ void StateGame::createCatapults()
             auto block = b.lock();
             auto const bpos = block->getPosition();
 
-            if (jt::MathHelper::length(bpos - pos) < 16.0f) {
+            if (jt::MathHelper::length(bpos - pos) < 24.0f) {
                 block->setPlayerID(1);
             }
             if (block->getPlayerId() == 1) {
@@ -86,7 +88,26 @@ void StateGame::createCatapults()
     m_catapult2 = std::make_shared<Catapult>(inputP2);
     add(m_catapult2);
     m_catapult2->registerHitCallback([this](jt::Vector2f const& v) {
+        auto const x = m_gridOffset.x + v.x * 16 * m_gridSizeX;
+        auto const y = v.y;
+        m_scoreP1 = 0;
+        m_scoreP2 = 0;
+        jt::Vector2f const pos { x, y };
+        for (auto& b : *m_blocks) {
+            auto block = b.lock();
+            auto const bpos = block->getPosition();
 
+            if (jt::MathHelper::length(bpos - pos) < 20.0f) {
+                block->setPlayerID(2);
+            }
+            if (block->getPlayerId() == 1) {
+                m_scoreP1++;
+            } else if (block->getPlayerId() == 2) {
+                m_scoreP2++;
+            }
+            m_hud->getObserverScoreP1()->notify(m_scoreP1);
+            m_hud->getObserverScoreP2()->notify(m_scoreP2);
+        }
     });
 }
 
@@ -95,6 +116,15 @@ void StateGame::doInternalUpdate(float const elapsed)
     if (m_running) {
         m_world->step(elapsed, GP::PhysicVelocityIterations(), GP::PhysicPositionIterations());
         // update game logic here
+    }
+
+    m_timer -= elapsed;
+
+    m_timerText->setText("timer: " + jt::MathHelper::floatToStringWithXDigits(m_timer, 1));
+    m_timerText->update(elapsed);
+
+    if (m_timer <= 0.0f) {
+        endGame();
     }
 
     m_background->update(elapsed);
@@ -107,6 +137,7 @@ void StateGame::doInternalDraw() const
     drawObjects();
 
     m_vignette->draw();
+    m_timerText->draw(renderTarget());
     m_hud->draw();
 }
 
@@ -119,7 +150,19 @@ void StateGame::endGame()
     m_hasEnded = true;
     m_running = false;
 
-    getGame()->stateManager().switchState(std::make_shared<StateMenu>());
+    auto state = std::make_shared<StateMenu>();
+    if (m_scoreP1 > m_scoreP2) {
+        state->setScore(
+            "Player 1 won with " + std::to_string(m_scoreP1) + " / " + std::to_string(m_scoreP2));
+    } else if (m_scoreP1 < m_scoreP2) {
+        state->setScore(
+            "Player 2 won with " + std::to_string(m_scoreP1) + " / " + std::to_string(m_scoreP2));
+    } else {
+        state->setScore(
+            "Draw with " + std::to_string(m_scoreP1) + " / " + std::to_string(m_scoreP2));
+    }
+
+    getGame()->stateManager().switchState(state);
 }
 
 std::string StateGame::getName() const { return "State Game"; }

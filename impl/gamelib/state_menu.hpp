@@ -17,7 +17,7 @@ class StateMenu : public jt::GameState {
 public:
     std::string getName() const override;
 
-    void setScore(int s) { m_score = s; };
+    void setScore(std::string s) { m_score = s; };
 
 private:
     std::shared_ptr<jt::Shape> m_background;
@@ -31,7 +31,7 @@ private:
     std::shared_ptr<jt::Shape> m_overlay;
     std::shared_ptr<jt::Vignette> m_vignette;
 
-    int m_score { 0 };
+    std::string m_score { "" };
 
     bool m_started { false };
 

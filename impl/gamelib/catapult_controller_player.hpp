@@ -13,6 +13,9 @@ public:
 private:
     jt::InputGetInterface& m_input;
     Catapult* m_catapult { nullptr };
+
+    float m_fireTimer { 0.0f };
+    float m_fireTimerMax { 1.0f };
 };
 
 #endif // INC_1HGJ389_CATAPULT_CONTROLLER_PLAYER_HPP

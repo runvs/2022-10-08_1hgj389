@@ -10,13 +10,14 @@ class GP {
 public:
     GP() = delete;
 
-    static std::string GameName() { return "MyAwesomeGame"; }
-    static std::string AuthorName() { return "TODO"; }
-    static std::string JamName() { return "TODO"; }
-    static std::string JamDate() { return "TODO"; }
+    static std::string GameName() { return "Color Catapult"; }
+    static std::string AuthorName() { return "Laguna_999"; }
+    static std::string JamName() { return "1hgj389"; }
+    static std::string JamDate() { return "2022-10-08"; }
     static std::string ExplanationText()
     {
-        return "Win the game\n[W,A,S,D] to move \n[Space] to jump";
+        return "Get as many Blocks in your Color\n[W,S] to move\nhold/release [Space] to fire\n"
+               "duration of [Space] press determines x position of hit";
     }
 
     static jt::Vector2f GetWindowSize() { return jt::Vector2f { 1200, 800 }; }
