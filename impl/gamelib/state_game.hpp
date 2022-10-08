@@ -1,6 +1,8 @@
 ﻿#ifndef GAME_STATE_GAME_HPP
 #define GAME_STATE_GAME_HPP
 
+#include "block.hpp"
+#include "object_group.hpp"
 #include <box2dwrapper/box2d_world_interface.hpp>
 #include <catapult.hpp>
 #include <game_state.hpp>
@@ -28,6 +30,11 @@ private:
 
     std::shared_ptr<Catapult> m_catapult1 { nullptr };
     std::shared_ptr<Catapult> m_catapult2 { nullptr };
+
+    std::shared_ptr<jt::ObjectGroup<Block>> m_blocks { nullptr };
+
+    int m_gridSizeX = 21;
+    int m_gridSizeY = 22;
 
     bool m_running { true };
     bool m_hasEnded { false };

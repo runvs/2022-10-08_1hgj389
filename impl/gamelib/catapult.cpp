@@ -15,15 +15,26 @@ void Catapult::moveUp()
 {
     auto pos = m_shape->getPosition();
     pos += jt::Vector2f { 0, -GP::catapultMovementSpeed() } * m_lastElapsed;
+    if (pos.y < 20.0f) {
+        pos.y = 20.0f;
+    }
     m_shape->setPosition(pos);
 }
 void Catapult::moveDown()
 {
     auto pos = m_shape->getPosition();
     pos += jt::Vector2f { 0, GP::catapultMovementSpeed() } * m_lastElapsed;
+    if (pos.y > GP::GetScreenSize().y - 20.0f) {
+        pos.y = GP::GetScreenSize().y - 20.0f;
+    }
     m_shape->setPosition(pos);
 }
-void Catapult::fire() { }
+void Catapult::fire()
+{
+    if (canFire()) {
+        // TODO color blocks
+    }
+}
 bool Catapult::canFire() const { return false; }
 
 void Catapult::doCreate()

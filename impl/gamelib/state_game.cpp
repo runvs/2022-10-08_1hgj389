@@ -1,5 +1,6 @@
 ﻿#include "state_game.hpp"
 #include "catapult_controller_player.hpp"
+#include "random/random.hpp"
 #include <box2dwrapper/box2d_world_impl.hpp>
 #include <color/color.hpp>
 #include <game_interface.hpp>
@@ -28,6 +29,19 @@ void StateGame::doInternalCreate()
     m_background->update(0.0f);
 
     createCatapults();
+
+    m_blocks = std::make_shared<jt::ObjectGroup<Block>>();
+    jt::Vector2f const gridOffset { 125.0f, 20.0f };
+    for (auto i = 1; i != m_gridSizeX; ++i) {
+        for (auto j = 1; j != m_gridSizeY; ++j) {
+            if (jt::Random::getChance(0.6f)) {
+                auto block = std::make_shared<Block>();
+                add(block);
+                m_blocks->push_back(block);
+                block->setPosition(gridOffset + jt::Vector2f { i * 16.0f, j * 16.0f });
+            }
+        }
+    }
 
     m_vignette = std::make_shared<jt::Vignette>(GP::GetScreenSize());
     add(m_vignette);
@@ -72,6 +86,7 @@ void StateGame::doInternalDraw() const
 {
     m_background->draw(renderTarget());
     drawObjects();
+
     m_vignette->draw();
     m_hud->draw();
 }
