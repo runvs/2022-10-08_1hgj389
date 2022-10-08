@@ -62,6 +62,8 @@ void StateGame::createCatapults()
     m_catapult1->registerHitCallback([this](jt::Vector2f const& v) {
         auto const x = m_gridOffset.x + v.x * 16 * m_gridSizeX;
         auto const y = v.y;
+        m_scoreP1 = 0;
+        m_scoreP2 = 0;
         jt::Vector2f const pos { x, y };
         for (auto& b : *m_blocks) {
             auto block = b.lock();
@@ -70,6 +72,13 @@ void StateGame::createCatapults()
             if (jt::MathHelper::length(bpos - pos) < 16.0f) {
                 block->setPlayerID(1);
             }
+            if (block->getPlayerId() == 1) {
+                m_scoreP1++;
+            } else if (block->getPlayerId() == 2) {
+                m_scoreP2++;
+            }
+            m_hud->getObserverScoreP1()->notify(m_scoreP1);
+            m_hud->getObserverScoreP2()->notify(m_scoreP2);
         }
     });
 
