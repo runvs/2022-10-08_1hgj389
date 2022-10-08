@@ -35,6 +35,7 @@ private:
 
     int m_gridSizeX = 21;
     int m_gridSizeY = 22;
+    jt::Vector2f const m_gridOffset { 125.0f, 20.0f };
 
     bool m_running { true };
     bool m_hasEnded { false };

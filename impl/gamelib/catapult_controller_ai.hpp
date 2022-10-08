@@ -13,6 +13,8 @@ private:
     Catapult* m_catapult { nullptr };
     float m_remainingTimeInDirection { 1.0f };
     bool m_currentDirection { true };
+
+    float m_fireTimer { 1.0f };
 };
 
 #endif // INC_1HGJ389_CATAPULT_CONTROLLER_AI_HPP

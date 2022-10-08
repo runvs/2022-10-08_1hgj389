@@ -1,4 +1,5 @@
 ﻿#include "state_game.hpp"
+#include "math_helper.hpp"
 #include <box2dwrapper/box2d_world_impl.hpp>
 #include <catapult_controller_ai.hpp>
 #include <catapult_controller_player.hpp>
@@ -32,14 +33,14 @@ void StateGame::doInternalCreate()
     createCatapults();
 
     m_blocks = std::make_shared<jt::ObjectGroup<Block>>();
-    jt::Vector2f const gridOffset { 125.0f, 20.0f };
+
     for (auto i = 1; i != m_gridSizeX; ++i) {
         for (auto j = 1; j != m_gridSizeY; ++j) {
             if (jt::Random::getChance(0.6f)) {
                 auto block = std::make_shared<Block>();
                 add(block);
                 m_blocks->push_back(block);
-                block->setPosition(gridOffset + jt::Vector2f { i * 16.0f, j * 16.0f });
+                block->setPosition(m_gridOffset + jt::Vector2f { i * 16.0f, j * 16.0f });
             }
         }
     }
@@ -58,10 +59,26 @@ void StateGame::createCatapults()
     auto inputP = std::make_shared<CatapultControllerPlayer>(getGame()->input());
     m_catapult1 = std::make_shared<Catapult>(inputP);
     add(m_catapult1);
+    m_catapult1->registerHitCallback([this](jt::Vector2f const& v) {
+        auto const x = m_gridOffset.x + v.x * 16 * m_gridSizeX;
+        auto const y = v.y;
+        jt::Vector2f const pos { x, y };
+        for (auto& b : *m_blocks) {
+            auto block = b.lock();
+            auto const bpos = block->getPosition();
+
+            if (jt::MathHelper::length(bpos - pos) < 16.0f) {
+                block->setPlayerID(1);
+            }
+        }
+    });
 
     auto inputP2 = std::make_shared<CatapultControllerAI>();
     m_catapult2 = std::make_shared<Catapult>(inputP2);
     add(m_catapult2);
+    m_catapult2->registerHitCallback([this](jt::Vector2f const& v) {
+
+    });
 }
 
 void StateGame::doInternalUpdate(float const elapsed)

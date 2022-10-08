@@ -14,12 +14,16 @@ public:
     void fire(float strength);
     bool canFire() const;
 
+    void registerHitCallback(std::function<void(jt::Vector2f const&)> cb);
+
 private:
     std::shared_ptr<CatapultControllerInterface> m_controller { nullptr };
-
     std::shared_ptr<jt::Shape> m_shape;
 
     float m_lastElapsed { 0.0f };
+    std::function<void(jt::Vector2f const&)> m_hitCallback;
+
+    float m_fireCooldown { 0.0f };
 
     void doCreate() override;
     void doUpdate(float const elapsed) override;

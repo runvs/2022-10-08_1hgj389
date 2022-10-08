@@ -32,10 +32,15 @@ void Catapult::moveDown()
 void Catapult::fire(float strength)
 {
     if (canFire()) {
-        // TODO color blocks
+        auto str = strength;
+        if (m_controller->getPlayerID() != 1) {
+            str = 1.0f - str;
+        }
+        m_hitCallback(jt::Vector2f { str, m_shape->getPosition().y });
+        m_fireCooldown = 0.25f;
     }
 }
-bool Catapult::canFire() const { return false; }
+bool Catapult::canFire() const { return m_fireCooldown <= 0.0f; }
 
 void Catapult::doCreate()
 {
@@ -58,5 +63,11 @@ void Catapult::doUpdate(float const elapsed)
     m_controller->update(elapsed);
     m_lastElapsed = elapsed;
     m_shape->update(elapsed);
+
+    m_fireCooldown -= elapsed;
 }
 void Catapult::doDraw() const { m_shape->draw(renderTarget()); }
+void Catapult::registerHitCallback(std::function<void(jt::Vector2f const&)> cb)
+{
+    m_hitCallback = cb;
+}
