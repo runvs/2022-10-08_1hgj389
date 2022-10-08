@@ -29,7 +29,7 @@ void Catapult::moveDown()
     }
     m_shape->setPosition(pos);
 }
-void Catapult::fire()
+void Catapult::fire(float strength)
 {
     if (canFire()) {
         // TODO color blocks
@@ -45,6 +45,12 @@ void Catapult::doCreate()
         m_shape->setColor(GP::getPalette().getColor(3));
     } else {
         m_shape->setColor(GP::getPalette().getColor(4));
+    }
+    if (m_controller->getPlayerID() == 1) {
+        m_shape->setPosition(jt::Vector2f { 5.0f, GP::GetScreenSize().y / 2 });
+    } else {
+        m_shape->setPosition(
+            jt::Vector2f { GP::GetScreenSize().x - 16.0f - 5.0f, GP::GetScreenSize().y / 2 });
     }
 }
 void Catapult::doUpdate(float const elapsed)

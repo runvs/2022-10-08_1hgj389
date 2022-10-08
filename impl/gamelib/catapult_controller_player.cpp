@@ -18,7 +18,7 @@ void CatapultControllerPlayer::update(float elapsed)
         m_catapult->moveDown();
     }
     if (m_input.keyboard()->justPressed(jt::KeyCode::Space)) {
-        m_catapult->fire();
+        m_catapult->fire(100.0f);
     }
 }
 void CatapultControllerPlayer::registerCatapult(Catapult* catapult) { m_catapult = catapult; }

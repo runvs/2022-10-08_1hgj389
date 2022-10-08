@@ -11,7 +11,7 @@ public:
     explicit Catapult(std::shared_ptr<CatapultControllerInterface> controller);
     void moveUp();
     void moveDown();
-    void fire();
+    void fire(float strength);
     bool canFire() const;
 
 private:

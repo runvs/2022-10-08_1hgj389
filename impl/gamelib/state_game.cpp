@@ -1,11 +1,12 @@
 ﻿#include "state_game.hpp"
-#include "catapult_controller_player.hpp"
-#include "random/random.hpp"
 #include <box2dwrapper/box2d_world_impl.hpp>
+#include <catapult_controller_ai.hpp>
+#include <catapult_controller_player.hpp>
 #include <color/color.hpp>
 #include <game_interface.hpp>
 #include <game_properties.hpp>
 #include <hud/hud.hpp>
+#include <random/random.hpp>
 #include <screeneffects/vignette.hpp>
 #include <shape.hpp>
 #include <sprite.hpp>
@@ -58,8 +59,8 @@ void StateGame::createCatapults()
     m_catapult1 = std::make_shared<Catapult>(inputP);
     add(m_catapult1);
 
-    auto inputP2 = std::make_shared<CatapultControllerPlayer>(getGame()->input());
-    m_catapult2 = std::make_shared<Catapult>(inputP);
+    auto inputP2 = std::make_shared<CatapultControllerAI>();
+    m_catapult2 = std::make_shared<Catapult>(inputP2);
     add(m_catapult2);
 }
 
@@ -68,14 +69,6 @@ void StateGame::doInternalUpdate(float const elapsed)
     if (m_running) {
         m_world->step(elapsed, GP::PhysicVelocityIterations(), GP::PhysicPositionIterations());
         // update game logic here
-        if (getGame()->input().keyboard()->justPressed(jt::KeyCode::A)) {
-            m_scoreP1++;
-            m_hud->getObserverScoreP1()->notify(m_scoreP1);
-        }
-        if (getGame()->input().keyboard()->justPressed(jt::KeyCode::D)) {
-            m_scoreP2++;
-            m_hud->getObserverScoreP2()->notify(m_scoreP2);
-        }
     }
 
     m_background->update(elapsed);
