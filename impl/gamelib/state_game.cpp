@@ -79,9 +79,9 @@ void StateGame::createCatapults()
             } else if (block->getPlayerId() == 2) {
                 m_scoreP2++;
             }
-            m_hud->getObserverScoreP1()->notify(m_scoreP1);
-            m_hud->getObserverScoreP2()->notify(m_scoreP2);
         }
+        m_hud->getObserverScoreP1()->notify(m_scoreP1);
+        m_hud->getObserverScoreP2()->notify(m_scoreP2);
     });
 
     auto inputP2 = std::make_shared<CatapultControllerAI>();
@@ -105,9 +105,9 @@ void StateGame::createCatapults()
             } else if (block->getPlayerId() == 2) {
                 m_scoreP2++;
             }
-            m_hud->getObserverScoreP1()->notify(m_scoreP1);
-            m_hud->getObserverScoreP2()->notify(m_scoreP2);
         }
+        m_hud->getObserverScoreP1()->notify(m_scoreP1);
+        m_hud->getObserverScoreP2()->notify(m_scoreP2);
     });
 }
 
