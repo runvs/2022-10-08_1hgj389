@@ -71,7 +71,7 @@ void StateGame::createCatapults()
             auto block = b.lock();
             auto const bpos = block->getPosition();
 
-            if (jt::MathHelper::length(bpos - pos) < 24.0f) {
+            if (jt::MathHelper::lengthSquared(bpos - pos) < 24.0f*24.0f) {
                 block->setPlayerID(1);
             }
             if (block->getPlayerId() == 1) {
@@ -97,7 +97,7 @@ void StateGame::createCatapults()
             auto block = b.lock();
             auto const bpos = block->getPosition();
 
-            if (jt::MathHelper::length(bpos - pos) < 20.0f) {
+            if (jt::MathHelper::lengthSquared(bpos - pos) < 20.0f*20.0f) {
                 block->setPlayerID(2);
             }
             if (block->getPlayerId() == 1) {
